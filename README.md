@@ -2,6 +2,16 @@
 
 Mac 新电脑环境一键配置脚本。在新机器上拿到后，一条命令搞定常用开发工具和镜像配置。
 
+## 一键执行
+
+即使新电脑上还没有安装 Git，也可以直接通过以下命令一键运行：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/qychen2001/env-setup/main/setup.sh | bash
+```
+
+> **注意**：脚本会自动从 GitHub 下载最新版本并执行，确保网络通畅。
+
 ## 包含的工具
 
 | 类别 | 工具 |
@@ -15,6 +25,14 @@ Mac 新电脑环境一键配置脚本。在新机器上拿到后，一条命令�
 | 其他 | Git SSH 密钥生成与全局配置 |
 
 ## 使用方法
+
+### 方式一：直接执行（推荐，无需 Git）
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/qychen2001/env-setup/main/setup.sh | bash
+```
+
+### 方式二：克隆仓库后执行
 
 ```bash
 git clone git@github.com:qychen2001/env-setup.git
