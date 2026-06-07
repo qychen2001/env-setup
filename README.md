@@ -37,7 +37,7 @@ bash setup.sh
 11. 安装 CodeX（终端 AI 编程工具）
 12. 安装 UV / UVX（Python 包管理器）
 13. 安装 Bun（JavaScript 运行时）
-14. 安装 Docker Desktop
+14. 安装 Docker Desktop 并配置国内镜像加速
 15. 安装 Warp（现代化终端）
 16. 安装 iTerm2
 17. 安装 Powerlevel10k 主题
@@ -54,6 +54,7 @@ bash setup.sh
 - **Oh My Zsh**：CERNET 教育网镜像
 - **Powerlevel10k**：Gitee 镜像
 - **npm**：淘宝镜像（通过 NRM）
+- **Docker**：自动写入 `~/.docker/daemon.json`，配置国内 Registry 镜像加速（docker.1ms.run / DaoCloud），安装完成后需重启 Docker Desktop 生效
 - **Go**：goproxy.cn 代理
 
 ## 注意事项
@@ -62,4 +63,5 @@ bash setup.sh
 - 所有安装步骤均有幂等保护（已安装则跳过）
 - 环境变量通过 `~/.zshrc` 持久化，新终端窗口自动生效
 - Docker Desktop 和 Warp/iTerm2 安装包较大，请耐心等待
+- Docker 镜像加速配置完成后，需重启 Docker Desktop 才能生效
 - 首次运行脚本后，建议执行 `source ~/.zshrc` 使配置立即生效
