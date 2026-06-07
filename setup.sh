@@ -31,7 +31,7 @@ step() {
 # ---------------------------- 主流程 ------------------------------------------
 
 main() {
-  TOTAL_STEPS=21
+  TOTAL_STEPS=22
   CURRENT_STEP=0
 
   # ---------------------------------------------------------------------------
@@ -502,7 +502,42 @@ EOF
   info "如需手动运行配置向导：p10k configure"
 
   # ---------------------------------------------------------------------------
-  # 步骤 18：安装 Vim
+  # 步骤 18：安装 Tmux 并配置 Oh My Tmux
+  # 说明：Tmux 是终端复用器，可在一个终端窗口中同时管理多个会话。
+  #       通过 Homebrew 安装 Tmux，再克隆 gpakosz/.tmux 配置框架
+  #       （提供丰富的状态栏、快捷键和实用功能）。
+  # ---------------------------------------------------------------------------
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  step "$CURRENT_STEP" "$TOTAL_STEPS" "安装 Tmux 并配置 Oh My Tmux"
+
+  info "通过 Homebrew 安装 Tmux..."
+  brew install tmux
+  ok "Tmux 安装完成！"
+  info "当前 Tmux 版本: $(tmux -V)"
+
+  info "配置 Oh My Tmux（gpakosz/.tmux 配置框架）..."
+  OH_MY_TMUX_DIR="$HOME/.local/share/tmux/oh-my-tmux"
+
+  if [[ -d "$OH_MY_TMUX_DIR" ]]; then
+    ok "Oh My Tmux 已配置: $OH_MY_TMUX_DIR"
+  else
+    info "克隆 gpakosz/.tmux 仓库..."
+    git clone https://github.com/gpakosz/.tmux.git "$OH_MY_TMUX_DIR"
+    ok "克隆完成！"
+
+    # 创建 symlink：~/.tmux.conf → oh-my-tmux/.tmux.conf
+    ln -sf "$OH_MY_TMUX_DIR/.tmux.conf" "$HOME/.tmux.conf"
+    ok "已链接 ~/.tmux.conf"
+
+    # 复制本地配置模板（用户可在此自定义）
+    cp "$OH_MY_TMUX_DIR/.tmux.conf.local" "$HOME/.tmux.conf.local"
+    ok "已复制 ~/.tmux.conf.local（可在此自定义配置）"
+  fi
+
+  info "使用方式：执行 'tmux' 启动，Ctrl+B 为前缀键"
+
+  # ---------------------------------------------------------------------------
+  # 步骤 19：安装 Vim
   # 说明：macOS 自带 Vim，但版本较旧。通过 Homebrew 安装可获得最新版本，
   #       并支持 Python、Ruby、Lua 等更多特性。
   # ---------------------------------------------------------------------------
@@ -515,7 +550,7 @@ EOF
   info "当前 Vim 版本: $(vim --version | head -1)"
 
   # ---------------------------------------------------------------------------
-  # 步骤 19：安装 NeoVim
+  # 步骤 20：安装 NeoVim
   # 说明：NeoVim 是 Vim 的现代化重构版本，支持更好的插件生态和 LSP。
   #       通过 Homebrew 安装。
   # ---------------------------------------------------------------------------
@@ -528,7 +563,7 @@ EOF
   info "当前 NeoVim 版本: $(nvim --version | head -1)"
 
   # ---------------------------------------------------------------------------
-  # 步骤 20：安装 Go
+  # 步骤 21：安装 Go
   # 说明：Go 是 Google 开发的开源编程语言，适合后端服务、云原生开发等场景。
   #       通过 Homebrew 安装，安装后自动配置 PATH。
   # ---------------------------------------------------------------------------
@@ -565,7 +600,7 @@ EOF
   export GOPROXY="https://goproxy.cn,direct"
 
   # ---------------------------------------------------------------------------
-  # 步骤 21：安装 Claude Code
+  # 步骤 22：安装 Claude Code
   # 说明：Claude Code 是 Anthropic 官方出品的终端 AI 编程工具，
   #       直接在命令行中使用 Claude 模型辅助编码。
   #       使用官方安装脚本安装。
@@ -602,10 +637,11 @@ EOF
   echo "  11. 启动 Docker Desktop 后使用 'docker' / 'docker compose' 管理容器"
   echo "  12. 打开 Warp 或 iTerm2 作为终端"
   echo "  13. 打开新终端后 p10k 主题会自动加载（首次会提示配置向导）"
-  echo "  14. 使用 'go' 命令进行 Go 语言开发"
-  echo "  15. 使用 'vim' 或 'nvim' 编辑文件"
-  echo "  16. 运行 'brew install <包名>' 安装其他常用软件"
-  echo "  17. 如有 Brewfile，可执行 'brew bundle --file=~/Brewfile' 批量安装"
+  echo "  14. 使用 'tmux' 启动终端复用器，Ctrl+B 为前缀键"
+  echo "  15. 使用 'go' 命令进行 Go 语言开发"
+  echo "  16. 使用 'vim' 或 'nvim' 编辑文件"
+  echo "  17. 运行 'brew install <包名>' 安装其他常用软件"
+  echo "  18. 如有 Brewfile，可执行 'brew bundle --file=~/Brewfile' 批量安装"
   echo ""
   echo -e "${CYAN}提示：${NC}Git SSH 公钥已生成，请记得添加到 GitHub/GitLab："
   echo "  cat ~/.ssh/id_ed25519.pub | pbcopy"

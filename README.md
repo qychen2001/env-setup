@@ -18,7 +18,7 @@ curl -fsSL https://raw.githubusercontent.com/qychen2001/env-setup/main/setup.sh 
 |------|------|
 | 包管理 | Homebrew（清华镜像）、NVM、NRM、PNPM、UV、Bun |
 | 编辑器 | Vim、NeoVim |
-| 终端 | Oh My Zsh、Powerlevel10k 主题、Warp、iTerm2 |
+| 终端 | Oh My Zsh、Powerlevel10k 主题、Tmux、Warp、iTerm2 |
 | 运行时 | Node.js LTS、Go、Bun |
 | AI 工具 | OpenCode、CodeX、Claude Code |
 | 容器 | Docker Desktop |
@@ -59,10 +59,11 @@ bash setup.sh
 15. 安装 Warp（现代化终端）
 16. 安装 iTerm2
 17. 安装 Powerlevel10k 主题
-18. 安装 Vim（最新版）
-19. 安装 NeoVim
-20. 安装 Go 并配置 GOPATH 和代理
-21. 安装 Claude Code（终端 AI 编程工具）
+18. 安装 Tmux 并配置 Oh My Tmux
+19. 安装 Vim（最新版）
+20. 安装 NeoVim
+21. 安装 Go 并配置 GOPATH 和代理
+22. 安装 Claude Code（终端 AI 编程工具）
 
 ## 镜像说明
 
