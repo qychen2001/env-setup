@@ -391,6 +391,44 @@ EOF
     warn "Docker CLI 尚未就绪，请先启动 Docker Desktop 应用后再验证。"
   fi
 
+  # 配置 Docker Desktop 镜像加速
+  info "配置 Docker 镜像加速（国内源）..."
+  DOCKER_DAEMON="$HOME/.docker/daemon.json"
+  mkdir -p "$HOME/.docker"
+
+  if [[ -f "$DOCKER_DAEMON" ]]; then
+    if grep -q '"registry-mirrors"' "$DOCKER_DAEMON" 2>/dev/null; then
+      ok "Docker 镜像加速已配置，跳过。"
+    else
+      cp "$DOCKER_DAEMON" "${DOCKER_DAEMON}.bak"
+      python3 -c "
+import json, sys
+with open('$DOCKER_DAEMON', 'r') as f:
+    config = json.load(f)
+config['registry-mirrors'] = [
+    'https://docker.1ms.run',
+    'https://docker.m.daocloud.io'
+]
+with open('$DOCKER_DAEMON', 'w') as f:
+    json.dump(config, f, indent=2)
+    f.write('\n')
+"
+      ok "Docker 镜像加速配置已更新（原有配置已备份到 ${DOCKER_DAEMON}.bak）。"
+    fi
+  else
+    cat > "$DOCKER_DAEMON" <<EOF
+{
+  "registry-mirrors": [
+    "https://docker.1ms.run",
+    "https://docker.m.daocloud.io"
+  ]
+}
+EOF
+    ok "Docker 镜像加速配置已写入 $DOCKER_DAEMON"
+  fi
+
+  info "请重启 Docker Desktop 使镜像加速配置生效。"
+
   # ---------------------------------------------------------------------------
   # 步骤 15：安装 Warp
   # 说明：Warp 是现代化的终端模拟器，基于 Rust 开发，支持 AI 命令搜索、
