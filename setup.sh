@@ -31,7 +31,7 @@ step() {
 # ---------------------------- 主流程 ------------------------------------------
 
 main() {
-  TOTAL_STEPS=22
+  TOTAL_STEPS=23
   CURRENT_STEP=0
 
   # ---------------------------------------------------------------------------
@@ -614,6 +614,33 @@ EOF
 
   info "当前 Claude Code 版本: $(claude --version 2>/dev/null || echo '已安装')"
   info "使用方式：在项目目录中执行 'claude' 启动交互式编程助手"
+
+  # ---------------------------------------------------------------------------
+  # 步骤 23：可选安装 MacTeX
+  # 说明：MacTeX 是 macOS 上完整的 TeX/LaTeX 发行版，用于学术论文排版。
+  #       安装包约 4GB，耗时较长，因此设为可选。
+  # ---------------------------------------------------------------------------
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  step "$CURRENT_STEP" "$TOTAL_STEPS" "可选安装 MacTeX（LaTeX 排版系统）"
+
+  echo -e "${YELLOW}MacTeX 是 LaTeX 排版系统，适合学术写作，但安装包约 4GB，耗时较长。${NC}"
+  echo ""
+  echo -e "  ${GREEN}1)${NC} 安装 MacTeX"
+  echo -e "  ${RED}2)${NC} 跳过"
+  echo ""
+  echo -n -e "${CYAN}请选择 [1/2，默认跳过]: ${NC}"
+  read -r mactex_choice
+
+  if [[ "$mactex_choice" == "1" ]]; then
+    info "通过 Homebrew Cask 安装 MacTeX（约 4GB，请耐心等待）..."
+    brew install --cask mactex
+    ok "MacTeX 安装完成！"
+    info "安装后可使用 'pdflatex'、'xelatex' 等命令编译 LaTeX 文档"
+    info "推荐配合 VS Code + LaTeX Workshop 插件使用"
+  else
+    warn "已跳过 MacTeX 安装"
+    info "如需后续安装，运行: brew install --cask mactex"
+  fi
 
   # ---------------------------------------------------------------------------
   # 完成
